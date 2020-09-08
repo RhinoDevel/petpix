@@ -13,16 +13,32 @@
 5000 GET A$:IF A$="" THEN 5000:REM WAIT
 5010 GOSUB 7110:REM HANDLE KEY PRESS
 5020 GOTO 5000:REM LOOP TO WAIT AGAIN
-7000 POKE A+Y*W+X,C:RETURN:REM DRAW C
+6980 REM ******************************
+6990 REM *DRAW CHAR.STORED IN C AT    *
+6995 REM *CURRENT POSITION            *
+6998 REM ******************************
+7000 POKE A+Y*W+X,C:RETURN
+7002 REM ******************************
+7005 REM *MOVE CURSOR TO THE RIGHT    *
+7008 REM ******************************
 7010 C=B:GOSUB7000:REM REMOVE CURSOR
 7015 X=X+1:IF X=W THEN X=0
 7020 GOTO7300
+7025 REM ******************************
+7028 REM *MOVE CURSOR DOWN            *
+7029 REM ******************************
 7030 C=B:GOSUB7000
 7035 Y=Y+1:IF Y=H THEN Y=0
 7040 GOTO7300
+7045 REM ******************************
+7048 REM *MOVE CURSOR TO THE LEFT     *
+7049 REM ******************************
 7050 C=B:GOSUB7000
 7055 X=X-1:IF X=-1 THEN X=W-1
 7060 GOTO7300
+7065 REM ******************************
+7068 REM *MOVE CURSOR UP              *
+7069 REM ******************************
 7070 C=B:GOSUB7000
 7075 Y=Y-1:IF Y=-1 THEN Y=H-1
 7080 GOTO7300
@@ -30,12 +46,12 @@
 7095 REM *HANDLE USER KEY PRESS       *
 7098 REM ******************************
 7100 REM *** MOVEMENT ***
-7110 IF A$="{right}" THEN GOTO7010
-7130 IF A$="{down}" THEN GOTO7030
-7150 IF A$="{left}" THEN GOTO7050
-7170 IF A$="{up}" THEN GOTO7070
+7110 IF A$="{right}" THEN GOSUB 7010
+7130 IF A$="{down}" THEN GOSUB 7030
+7150 IF A$="{left}" THEN GOSUB 7050
+7170 IF A$="{up}" THEN GOSUB 7070
 7180 REM *** DRAWING ***
-7190 IF A$="q" THEN GOTO 8010
+7190 IF A$="q" THEN GOSUB 8010
 7290 RETURN
 7292 REM ******************************
 7295 REM *SAVE CHAR.AT CUR.POS.INTO B *
