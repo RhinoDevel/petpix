@@ -1,7 +1,7 @@
 2990 REM *** CONSTANTS ***
 2995 DIM SC(15):REM PIXEL SCREEN CODES
 3000 A=32768:REM VIDEO RAM ADDRESS
-3010 H=25:W=40:REM CHARACTER DIMENSIONS
+3010 H=25:W=40:REM CHAR. DIMENSIONS
 3012 F$="petpix-img":REM FILE NAME
 3015 REM *** VARIABLES ***
 3018 DIM CP%(H*W-1)
@@ -11,49 +11,49 @@
 3033 T=0:REM TO HOLD 1,2,4 OR 8.
 3034 I=0:REM LOOP COUNTER
 3036 B$="":REM TO HOLD TAPE INPUT
-3038 REM ******************************
-3040 REM *MAIN                        *
-3050 REM ******************************
+3038 REM *****************************
+3040 REM *MAIN                       *
+3050 REM *****************************
 3060 FOR I=0 TO 15
 3070 READ SC(I)
 3080 NEXT I
 4000 PRINT"{clear}";
 4010 GOSUB 7300:REM DRAW CURSOR
-5000 GET A$:IF A$="" THEN 5000:REM WAIT
+5000 GET A$:IF A$="" THEN 5000
 5010 GOSUB 7110:REM HANDLE KEY PRESS
 5020 GOTO 5000:REM LOOP TO WAIT AGAIN
-6980 REM ******************************
-6990 REM *DRAW CHAR.STORED IN C AT    *
-6995 REM *CURRENT POSITION            *
-6998 REM ******************************
+6980 REM *****************************
+6990 REM *DRAW CHAR.STORED IN C AT   *
+6995 REM *CURRENT POSITION           *
+6998 REM *****************************
 7000 POKE A+Y*W+X,C:RETURN
-7002 REM ******************************
-7005 REM *MOVE CURSOR TO THE RIGHT    *
-7008 REM ******************************
+7002 REM *****************************
+7005 REM *MOVE CURSOR TO THE RIGHT   *
+7008 REM *****************************
 7010 C=B:GOSUB7000:REM REMOVE CURSOR
 7015 X=X+1:IF X=W THEN X=0
 7020 GOTO7300
-7025 REM ******************************
-7028 REM *MOVE CURSOR DOWN            *
-7029 REM ******************************
+7025 REM *****************************
+7028 REM *MOVE CURSOR DOWN           *
+7029 REM *****************************
 7030 C=B:GOSUB7000
 7035 Y=Y+1:IF Y=H THEN Y=0
 7040 GOTO7300
-7045 REM ******************************
-7048 REM *MOVE CURSOR TO THE LEFT     *
-7049 REM ******************************
+7045 REM *****************************
+7048 REM *MOVE CURSOR TO THE LEFT    *
+7049 REM *****************************
 7050 C=B:GOSUB7000
 7055 X=X-1:IF X=-1 THEN X=W-1
 7060 GOTO7300
-7065 REM ******************************
-7068 REM *MOVE CURSOR UP              *
-7069 REM ******************************
+7065 REM *****************************
+7068 REM *MOVE CURSOR UP             *
+7069 REM *****************************
 7070 C=B:GOSUB7000
 7075 Y=Y-1:IF Y=-1 THEN Y=H-1
 7080 GOTO7300
-7090 REM ******************************
-7095 REM *HANDLE USER KEY PRESS       *
-7098 REM ******************************
+7090 REM *****************************
+7095 REM *HANDLE USER KEY PRESS      *
+7098 REM *****************************
 7100 REM *** MOVEMENT ***
 7110 IF A$="{right}" THEN GOSUB 7010
 7130 IF A$="{down}" THEN GOSUB 7030
@@ -78,57 +78,57 @@
 7286 IF A$<>"l" THEN 7290
 7288 GOSUB 8390:RETURN
 7290 RETURN
-7292 REM ******************************
-7295 REM *SAVE CHAR.AT CUR.POS.INTO B *
-7296 REM *AND DRAW CURSOR AT CUR.POS. *
-7298 REM ******************************
+7292 REM *****************************
+7295 REM *SAVE CHAR.AT CUR.POS.INTO B*
+7296 REM *AND DRAW CURSOR AT CUR.POS.*
+7298 REM *****************************
 7300 B=PEEK(A+Y*W+X):REM SAVE CHAR.
-7302 REM ******************************
-7305 REM *JUST DRAW CURSOR AT CUR.POS.*
-7306 REM *BY INVERTING SCREEN CODE    *
-7307 REM *STORED IN VARIABLE B        *
-7308 REM ******************************
+7302 REM *****************************
+7305 REM *JUST DRAW CRSR.AT CUR.POS. *
+7306 REM *BY INVERTING SCREEN CODE   *
+7307 REM *STORED IN VARIABLE B       *
+7308 REM *****************************
 7310 C=(B OR 128)-(B AND 128):REM INV.
 7315 GOSUB 7000:REM DRAW CURSOR
 7320 RETURN
-8022 REM ******************************
-8025 REM *WRITE INDEX OF CURRENT POS. *
-8028 REM *PIXEL SCREEN CODE INTO I    *
-8030 REM ****************************** 
+8022 REM *****************************
+8025 REM *WRITE INDEX OF CURRENT POS.*
+8028 REM *PIXEL SCREEN CODE INTO I   *
+8030 REM ***************************** 
 8040 FOR I=0 TO 15
 8050 IF B=SC(I) THEN RETURN
 8060 NEXT I
 8065 I=0:REM NON-PIXEL CODE = SPACE
 8070 RETURN
-8080 REM ******************************
-8090 REM *DRAW SUB-PIXEL AT CUR.POS.  *
-8100 REM ******************************
+8080 REM *****************************
+8090 REM *DRAW SUB-PIXEL AT CUR.POS. *
+8100 REM *****************************
 8110 GOSUB 8040
 8120 B=SC((I OR T)-(I AND T)):REM TOG.
 8130 GOSUB 7310
 8140 RETURN
-8142 REM ******************************
-8144 REM *COPY SCREEN TO CP%          *
-8146 REM ******************************
+8142 REM *****************************
+8144 REM *COPY SCREEN TO CP%         *
+8146 REM *****************************
 8150 C=B:GOSUB7000:REM REMOVE CURSOR
 8160 FOR I=0 TO W*H-1
 8170 CP%(I)=PEEK(A+I)
 8180 NEXT I
 8190 GOSUB7310:REM REDRAW CURSOR
 8200 RETURN
-8202 REM ******************************
-8204 REM *COPY CP% TO SCREEN          *
-8206 REM ******************************
+8202 REM *****************************
+8204 REM *COPY CP% TO SCREEN         *
+8206 REM *****************************
 8210 C=B:GOSUB7000:REM REMOVE CURSOR
 8220 FOR I=0 TO W*H-1
 8230 POKE A+I,CP%(I)
 8240 NEXT I
 8250 GOSUB7300:REM REDRAW CURSOR
 8260 RETURN
-8270 REM ******************************
-8280 REM *COPY SCREEN INTO CP% AND    *
-8285 REM *SAVE CP% TO DATASSETTE #1   *
-8290 REM ******************************
+8270 REM *****************************
+8280 REM *COPY SCREEN INTO CP% AND   *
+8285 REM *SAVE CP% TO DATASSETTE #1  *
+8290 REM *****************************
 8300 GOSUB 8150:REM COPY INTO CP%
 8303 PRINT"{clear}";
 8305 OPEN 1,1,1,F$
@@ -138,10 +138,10 @@
 8340 CLOSE 1
 8345 GOSUB 8210:REM REDRAW FROM CP%
 8350 RETURN
-8360 REM ******************************
-8370 REM *LOAD FROM TAPE #1 INTO CP%  *
-8375 REM *AND REDRAW FROM CP%         *
-8380 REM ******************************
+8360 REM *****************************
+8370 REM *LOAD FROM TAPE #1 INTO CP% *
+8375 REM *AND REDRAW FROM CP%        *
+8380 REM *****************************
 8390 PRINT"{clear}"; 
 8395 OPEN 1,1,0,F$
 8400 FOR I=0 TO W*H-1
@@ -152,6 +152,6 @@
 8445 GOSUB 8210:REM REDRAW FROM CP%
 8450 RETURN
 9000 REM *** PIXEL SCREEN CODES *** 
-9010 DATA 32,124,108,225,123,255,98,254
-9020 DATA 126,226,127,251,97,236,252
-9030 DATA 224
+9010 DATA 32,124,108,225,123,255,98
+9020 DATA 254,126,226,127,251,97,236
+9030 DATA 252,224
