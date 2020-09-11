@@ -12,7 +12,7 @@
     <GenToDisk>False</GenToDisk>
     <BuildToPrgFile>True</BuildToPrgFile>
     <d64Name />
-    <Comments>PETPix is a drawing tool for CBM/PET machines in 80x50 (or 160x100) "big pixel" mode (and more).</Comments>
+    <Comments>PETPix is a drawing tool for CBM/PET machines in 80x50 (or 160x50) "big pixel" mode (and more).</Comments>
     <Author>Marcel Timm, RhinoDevel</Author>
     <Email />
     <AutoLaunchName>petpix.prg</AutoLaunchName>
@@ -56,7 +56,7 @@
             <Regions />
             <Breakpoints />
             <Bookmarks />
-            <Topmost>True</Topmost>
+            <Topmost>False</Topmost>
             <FileOpen>True</FileOpen>
         </SourceFile>
     </SourceFiles>
